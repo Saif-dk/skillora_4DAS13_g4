@@ -1,0 +1,8 @@
+.idea/
+*.iml
+target/
+dist/
+node_modules/
+.angular/
+Backend/course-service/data/*.db
+.DS_Store
