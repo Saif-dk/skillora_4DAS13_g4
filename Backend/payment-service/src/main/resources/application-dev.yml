@@ -1,0 +1,8 @@
+# Activate with: --spring.profiles.active=dev
+clients:
+  course-service:
+    url: http://localhost:8081       # local Course service (bypasses Eureka)
+
+logging:
+  level:
+    tn.esprit.skillora.payment: DEBUG

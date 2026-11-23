@@ -1,0 +1,41 @@
+# Local infrastructure for the Payment service.
+# Keycloak, Eureka and the Course service are assumed to be run by the rest of the team.
+services:
+  payment-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: payment_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - payment-db-data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"      # management UI: guest / guest
+
+  payment-service:
+    build: .
+    depends_on:
+      - payment-db
+      - rabbitmq
+    environment:
+      DB_URL: jdbc:postgresql://payment-db:5432/payment_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      RABBITMQ_HOST: rabbitmq
+      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8080/realms/elearning
+      COURSE_SERVICE_URL: http://host.docker.internal:8081
+      PAYMENT_WEBHOOK_SECRET: change-me
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8084:8084"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  payment-db-data:
