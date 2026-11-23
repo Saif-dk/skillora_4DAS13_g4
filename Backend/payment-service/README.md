@@ -108,17 +108,3 @@ void onPaymentSuccessful(String json) { /* parse, check eventId, activate enroll
 
 `Payment 1 — 0..1 Invoice`, `Payment 1 — * Refund`, plus `outbox_events`. Other services are referenced by id only
 (`student_id` = Keycloak `sub`, `course_id`, `enrollment_id`), never joined across databases.
-
-## Things to agree with the team
-
-- **Event name**: the report says `PaymentSucceeded`, the presentation says `PaymentSuccessful`. This service uses the presentation name (constants in `PaymentEventRecorder`).
-- **Course service must return `price`** (and ideally `currency`, `status`) in `GET /api/courses/{id}`: the class diagram of the report has no price yet.
-- **Role names** are read from Keycloak realm roles and upper-cased: `student`, `admin` → `ROLE_STUDENT`, `ROLE_ADMIN`.
-- **User ids** are Keycloak `sub` strings (UUID), not `Long` as in the report's diagrams.
-- `POST /payments` returns **201** (presentation) rather than 202 (report).
-
-## Limitations / next steps
-
-- `SimulatedPaymentGateway` is the only provider; add another `PaymentGateway` implementation for a real one (Konnect, Flouci, Stripe...).
-- Config Server is not wired (add `spring-cloud-starter-config` + `spring.config.import`).
-- Outbox publishing has no publisher confirms; a circuit breaker (Resilience4j) on the Course call would be a good addition.
