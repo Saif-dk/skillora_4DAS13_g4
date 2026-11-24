@@ -10,6 +10,8 @@ import com.skillora.course.api.exception.ForbiddenOperationException;
 import com.skillora.course.api.exception.ResourceNotFoundException;
 import com.skillora.course.domain.entity.Course;
 import com.skillora.course.domain.enumeration.CourseStatus;
+import com.skillora.course.event.CourseCreatedEvent;
+import com.skillora.course.event.CourseEventPublisher;
 import com.skillora.course.mapper.CourseMapper;
 import com.skillora.course.repository.CourseRepository;
 import com.skillora.course.service.CourseAccessPolicy;
@@ -21,7 +23,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,10 +33,13 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final CourseAccessPolicy accessPolicy;
+    private final CourseEventPublisher courseEventPublisher;
 
-    public CourseServiceImpl(CourseRepository courseRepository, CourseAccessPolicy accessPolicy) {
+    public CourseServiceImpl(CourseRepository courseRepository, CourseAccessPolicy accessPolicy,
+                             CourseEventPublisher courseEventPublisher) {
         this.courseRepository = courseRepository;
         this.accessPolicy = accessPolicy;
+        this.courseEventPublisher = courseEventPublisher;
     }
 
     @Override
@@ -72,7 +79,14 @@ public class CourseServiceImpl implements CourseService {
         }
         Course course = CourseMapper.toEntity(request, teacherId);
         course.setStatus(CourseStatus.DRAFT);
-        return CourseMapper.toResponse(courseRepository.save(course));
+        Course savedCourse = courseRepository.save(course);
+        courseEventPublisher.publishCourseCreated(new CourseCreatedEvent(
+                UUID.randomUUID().toString(),
+                savedCourse.getId(),
+                savedCourse.getTitle(),
+                savedCourse.getTeacherId(),
+                LocalDateTime.now()));
+        return CourseMapper.toResponse(savedCourse);
     }
 
     @Override

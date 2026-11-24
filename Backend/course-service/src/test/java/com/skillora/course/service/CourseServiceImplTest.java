@@ -9,6 +9,8 @@ import com.skillora.course.api.exception.BusinessConflictException;
 import com.skillora.course.api.exception.ForbiddenOperationException;
 import com.skillora.course.domain.entity.Course;
 import com.skillora.course.domain.enumeration.CourseStatus;
+import com.skillora.course.event.CourseCreatedEvent;
+import com.skillora.course.event.CourseEventPublisher;
 import com.skillora.course.repository.CourseRepository;
 import com.skillora.course.service.impl.CourseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,11 +38,14 @@ class CourseServiceImplTest {
     @Mock
     private CourseRepository courseRepository;
 
+    @Mock
+    private CourseEventPublisher courseEventPublisher;
+
     private CourseServiceImpl service;
 
     @BeforeEach
     void setUp() {
-        service = new CourseServiceImpl(courseRepository, new CourseAccessPolicy());
+        service = new CourseServiceImpl(courseRepository, new CourseAccessPolicy(), courseEventPublisher);
     }
 
     @Test
@@ -90,7 +95,11 @@ class CourseServiceImplTest {
 
     @Test
     void createForcesDraftAndUsesCallerTeacherId() {
-        when(courseRepository.save(any(Course.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(courseRepository.save(any(Course.class))).thenAnswer(invocation -> {
+            Course course = invocation.getArgument(0);
+            course.setId(10L);
+            return course;
+        });
         CourseCreateRequest request = new CourseCreateRequest(
                 "Java", "Description", "Dev", "DEBUTANT", CourseStatus.PUBLISHED, BigDecimal.TEN);
 
@@ -102,6 +111,15 @@ class CourseServiceImplTest {
         assertThat(response.teacherId()).isEqualTo(55L);
         assertThat(captor.getValue().getStatus()).isEqualTo(CourseStatus.DRAFT);
         assertThat(captor.getValue().getTeacherId()).isEqualTo(55L);
+
+        ArgumentCaptor<CourseCreatedEvent> eventCaptor = ArgumentCaptor.forClass(CourseCreatedEvent.class);
+        verify(courseEventPublisher).publishCourseCreated(eventCaptor.capture());
+        CourseCreatedEvent event = eventCaptor.getValue();
+        assertThat(event.eventId()).isNotBlank();
+        assertThat(event.courseId()).isEqualTo(10L);
+        assertThat(event.title()).isEqualTo("Java");
+        assertThat(event.teacherId()).isEqualTo(55L);
+        assertThat(event.occurredAt()).isNotNull();
     }
 
     @Test
