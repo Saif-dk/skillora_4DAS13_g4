@@ -1,0 +1,97 @@
+<div class="login-page">
+  <section class="brand-panel">
+    <div class="brand-top">
+      <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
+      <span class="brand-name">Skill<span>ora</span></span>
+    </div>
+
+    <div class="brand-content">
+      <span class="eyebrow">REJOIGNEZ SKILLORA</span>
+      <h2>Votre parcours<br /><span>commence ici.</span></h2>
+      <p>Créez votre compte étudiant et accédez à tous les cours, leçons et ressources pédagogiques de la plateforme.</p>
+
+      <div class="education-illustration" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="main-card">
+          <i class="bi bi-mortarboard-fill"></i>
+          <span>Rejoignez la communauté</span>
+        </div>
+        <div class="float-card float-one"><i class="bi bi-award-fill"></i> Certifications</div>
+        <div class="float-card float-two"><i class="bi bi-journal-check"></i> Cours à votre rythme</div>
+        <div class="float-card float-three"><i class="bi bi-people-fill"></i> +24k étudiants</div>
+      </div>
+
+      <div class="brand-highlights">
+        <div><strong>500+</strong><span>Cours en ligne</span></div>
+        <div><strong>24k</strong><span>Étudiants actifs</span></div>
+        <div><strong>98 %</strong><span>Satisfaction</span></div>
+      </div>
+    </div>
+
+    <p class="brand-footer">© 2026 Skillora. Tous droits réservés.</p>
+  </section>
+
+  <section class="form-panel">
+    <div class="form-wrapper">
+      <div class="mobile-brand d-lg-none">
+        <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
+        <span class="brand-name">Skill<span>ora</span></span>
+      </div>
+
+      <h1>Créer un compte</h1>
+      <p class="form-subtitle">Inscription en quelques secondes, votre rôle sera STUDENT.</p>
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger py-2 small"><i class="bi bi-exclamation-circle me-1"></i>{{ errorMessage() }}</div>
+      }
+
+      <form (ngSubmit)="submit()">
+        <div class="row g-2">
+          <div class="col-12 col-md-6 mb-3">
+            <label for="regFirstName" class="form-label">Prénom</label>
+            <input id="regFirstName" name="firstName" type="text" class="form-control" placeholder="Camille" [(ngModel)]="form.firstName" required />
+          </div>
+          <div class="col-12 col-md-6 mb-3">
+            <label for="regLastName" class="form-label">Nom</label>
+            <input id="regLastName" name="lastName" type="text" class="form-control" placeholder="Martin" [(ngModel)]="form.lastName" required />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="regEmail" class="form-label">Adresse e-mail</label>
+          <div class="input-with-icon">
+            <i class="bi bi-envelope"></i>
+            <input id="regEmail" name="email" type="email" class="form-control" placeholder="vous@exemple.com" [(ngModel)]="form.email" required />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="regPassword" class="form-label">Mot de passe</label>
+          <div class="input-with-icon">
+            <i class="bi bi-lock"></i>
+            <input id="regPassword" name="password" type="password" class="form-control" placeholder="8 caractères minimum" [(ngModel)]="form.password" required minlength="8" />
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="regConfirm" class="form-label">Confirmer le mot de passe</label>
+          <div class="input-with-icon">
+            <i class="bi bi-lock-fill"></i>
+            <input id="regConfirm" name="confirmPassword" type="password" class="form-control" placeholder="••••••••" [(ngModel)]="form.confirmPassword" required />
+          </div>
+        </div>
+
+        <button class="btn btn-primary w-100 login-btn" type="submit" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2"></span> Inscription...
+          } @else {
+            S’inscrire <i class="bi bi-arrow-right ms-2"></i>
+          }
+        </button>
+      </form>
+
+      <p class="text-center mt-3 small text-muted-2">Déjà inscrit ? <a class="fw-semibold" routerLink="/login">Se connecter</a></p>
+    </div>
+  </section>
+</div>

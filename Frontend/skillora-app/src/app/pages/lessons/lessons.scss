@@ -1,0 +1,105 @@
+.back-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #2563eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &:hover {
+    background: #eff6ff;
+  }
+}
+
+.lesson-row {
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:not(.lesson-header):hover {
+    background: #f8fbff;
+  }
+}
+
+.lesson-header {
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: grid;
+  grid-template-columns: 90px 1fr 150px 90px 110px;
+  gap: 1rem;
+}
+
+.position-pill {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lesson-title {
+  flex: 1;
+  min-width: 180px;
+
+  h6 {
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  small {
+    color: #64748b;
+  }
+}
+
+.lesson-cell {
+  width: 150px;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.lesson-actions {
+  flex-shrink: 0;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+
+  &:hover {
+    color: #2563eb;
+    background: #eff6ff;
+    border-color: #bfdbfe;
+  }
+}
+
+.action-delete:hover {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fecaca;
+}

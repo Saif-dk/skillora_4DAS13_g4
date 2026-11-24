@@ -1,0 +1,54 @@
+<div class="table-responsive">
+  <table class="table app-table align-middle mb-0">
+    <thead>
+      <tr>
+        @for (column of columns; track column.key) {
+          <th scope="col">{{ column.label }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows; track $index) {
+        <tr>
+          @for (column of columns; track column.key) {
+            <td>
+              @switch (column.type) {
+                @case ('status') {
+                  <app-status-badge [status]="$any(row[column.key])" />
+                }
+                @case ('level') {
+                  <span class="level-pill">{{ row[column.key] }}</span>
+                }
+                @case ('actions') {
+                  <div class="table-actions">
+                    <button type="button" class="action-btn action-view" title="Voir les détails" (click)="emit('view', row)">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button type="button" class="action-btn action-edit" title="Modifier" (click)="emit('edit', row)">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button type="button" class="action-btn action-delete" title="Supprimer" (click)="emit('delete', row)">
+                      <i class="bi bi-trash3"></i>
+                    </button>
+                  </div>
+                }
+                @default {
+                  <span [class.title-cell]="column.key === 'title'">{{ row[column.key] }}</span>
+                }
+              }
+            </td>
+          }
+        </tr>
+      } @empty {
+        <tr>
+          <td [attr.colspan]="columns.length">
+            <div class="empty-state">
+              <i class="bi bi-inbox d-block mb-2"></i>
+              {{ emptyMessage }}
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

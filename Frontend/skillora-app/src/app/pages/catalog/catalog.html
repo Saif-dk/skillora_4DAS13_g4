@@ -1,0 +1,60 @@
+<div class="catalog-banner mb-4">
+  <div>
+    <span class="eyebrow">CATALOGUE ÉTUDIANT</span>
+    <h2>Découvrez votre prochain cours</h2>
+    <p>Des parcours conçus par des experts pour progresser à votre rythme.</p>
+  </div>
+  <div class="banner-art" aria-hidden="true"><i class="bi bi-collection-play"></i></div>
+</div>
+
+<div class="app-card p-3 mb-4">
+  <div class="row g-2 align-items-center">
+    <div class="col-12 col-lg-5">
+      <div class="search-field">
+        <i class="bi bi-search"></i>
+        <input type="search" class="form-control" placeholder="Rechercher un cours..." [value]="search()" (input)="setSearch($any($event.target).value)" />
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3">
+      <select class="form-select" aria-label="Filtrer par niveau" [value]="level()" (change)="setLevel($any($event.target).value)">
+        <option value="">Tous les niveaux</option>
+        <option value="DEBUTANT">Débutant</option>
+        <option value="INTERMEDIAIRE">Intermédiaire</option>
+        <option value="AVANCE">Avancé</option>
+      </select>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-2">
+      <select class="form-select" aria-label="Filtrer par catégorie" [value]="category()" (change)="setCategory($any($event.target).value)">
+        @for (item of categories(); track item) {
+          <option [value]="item === 'Toutes les catégories' ? '' : item">{{ item }}</option>
+        }
+      </select>
+    </div>
+    <div class="col-12 col-lg-2">
+      <button type="button" class="btn btn-outline-secondary w-100 btn-sm" (click)="reset()"><i class="bi bi-arrow-counterclockwise me-1"></i> Réinitialiser</button>
+    </div>
+  </div>
+</div>
+
+@if (loading()) {
+  <div class="alert alert-secondary" role="status">Chargement du catalogue...</div>
+}
+
+@if (error()) {
+  <div class="alert alert-danger" role="alert">{{ error() }}</div>
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3 class="section-title">{{ filteredCourses().length }} cours disponibles</h3>
+  <span class="text-muted-2 small">Données temps réel du microservice cours</span>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
+  @for (course of filteredCourses(); track course.id) {
+    <div class="col"><app-course-card [course]="course" /></div>
+  } @empty {
+    <div class="col-12">
+      <div class="app-card empty-state"><i class="bi bi-search d-block mb-2"></i>Aucun cours ne correspond à votre recherche.</div>
+    </div>
+  }
+</div>

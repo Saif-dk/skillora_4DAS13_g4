@@ -1,0 +1,27 @@
+<article class="course-card app-card app-card-hover h-100">
+  <a class="course-cover" [class]="'course-cover cover-gradient-' + cover" [routerLink]="['/courses', course.id]">
+    <i [class]="coverIcon"></i>
+    <span class="cover-category">{{ course.category }}</span>
+  </a>
+
+  <div class="course-card-body">
+    <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+      <span class="level-pill">{{ course.level }}</span>
+      <app-status-badge [status]="course.status" />
+    </div>
+
+    <h5 class="course-title">
+      <a [routerLink]="['/courses', course.id]">{{ course.title }}</a>
+    </h5>
+    <p class="course-description">{{ course.id }} · créé le {{ course.createdAt }}</p>
+
+    <div class="course-meta">
+      <span><i class="bi bi-person-circle"></i> Enseignant #{{ course.teacherId }}</span>
+      <span><i class="bi bi-cash-coin"></i> {{ course.price }} €</span>
+    </div>
+
+    <a class="btn btn-primary btn-sm w-100 mt-3" [routerLink]="['/courses', course.id]">
+      Consulter le cours <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+</article>

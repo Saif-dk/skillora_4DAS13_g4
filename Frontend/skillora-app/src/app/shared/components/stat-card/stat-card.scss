@@ -1,0 +1,55 @@
+.stat-card {
+  padding: 1.25rem;
+  height: 100%;
+}
+
+.stat-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.tone-blue { background: #eff6ff; color: #2563eb; }
+.tone-green { background: #dcfce7; color: #16a34a; }
+.tone-violet { background: #f3e8ff; color: #9333ea; }
+.tone-amber { background: #fef3c7; color: #d97706; }
+
+.stat-trend {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #16a34a;
+  background: #dcfce7;
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.stat-label {
+  color: #64748b;
+  font-size: 0.875rem;
+  margin-top: 0.35rem;
+  font-weight: 500;
+}
+
+.stat-hint {
+  color: #94a3b8;
+  font-size: 0.75rem;
+  margin-top: 0.65rem;
+}

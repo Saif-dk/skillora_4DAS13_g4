@@ -1,0 +1,19 @@
+<div class="app-shell">
+  <app-sidebar
+    [collapsed]="collapsed"
+    [mobileOpen]="mobileOpen"
+    (toggleCollapse)="toggleCollapse()"
+    (closeMobile)="closeMobile()"
+  />
+
+  @if (mobileOpen) {
+    <div class="sidebar-backdrop" (click)="closeMobile()"></div>
+  }
+
+  <div class="main-column">
+    <app-navbar (toggleMobile)="openMobile()" />
+    <main class="content-area">
+      <router-outlet />
+    </main>
+  </div>
+</div>

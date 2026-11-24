@@ -1,0 +1,39 @@
+<header class="topbar">
+  <div class="topbar-left">
+    <button type="button" class="menu-toggle d-lg-none" aria-label="Ouvrir le menu" (click)="toggleMobile.emit()">
+      <i class="bi bi-list"></i>
+    </button>
+    <div>
+      <h1 class="topbar-title">{{ pageTitle }}</h1>
+      <p class="topbar-subtitle d-none d-sm-block">Bienvenue sur votre espace Skillora</p>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <div class="search-box d-none d-md-flex">
+      <i class="bi bi-search"></i>
+      <input type="search" placeholder="Rechercher un cours, une leçon..." aria-label="Rechercher" />
+      <kbd>⌘ K</kbd>
+    </div>
+
+    <button type="button" class="topbar-icon d-md-none" aria-label="Rechercher">
+      <i class="bi bi-search"></i>
+    </button>
+
+    <button type="button" class="topbar-icon position-relative" aria-label="Notifications">
+      <i class="bi bi-bell"></i>
+      <span class="notification-dot"></span>
+    </button>
+
+    <span class="topbar-divider d-none d-sm-block"></span>
+
+    <a class="user-chip" routerLink="/profile">
+      <span class="avatar avatar-sm">{{ initials }}</span>
+      <span class="user-info d-none d-sm-flex">
+        <span class="user-name">{{ auth.user()?.firstName }} {{ auth.user()?.lastName }}</span>
+        <span class="user-role">{{ auth.user()?.role ?? 'Visiteur' }}</span>
+      </span>
+      <i class="bi bi-chevron-down d-none d-sm-block"></i>
+    </a>
+  </div>
+</header>

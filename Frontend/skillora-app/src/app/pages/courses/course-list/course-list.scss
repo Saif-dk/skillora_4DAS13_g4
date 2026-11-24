@@ -1,0 +1,41 @@
+.search-field {
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 0.9rem;
+    z-index: 1;
+  }
+
+  input {
+    padding-left: 2.4rem;
+  }
+}
+
+.reset-btn {
+  font-size: 0.82rem;
+}
+
+.demo-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+
+  p {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin: 0;
+  }
+}
+
+::ng-deep .pagination {
+  --bs-pagination-color: #2563eb;
+  --bs-pagination-active-bg: #2563eb;
+  --bs-pagination-active-border-color: #2563eb;
+  --bs-pagination-border-color: #e2e8f0;
+  --bs-pagination-hover-color: #2563eb;
+}

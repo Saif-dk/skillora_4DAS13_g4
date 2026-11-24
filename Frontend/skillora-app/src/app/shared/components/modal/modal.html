@@ -1,0 +1,20 @@
+@if (open) {
+  <div class="modal-overlay" (click)="close()">
+    <div class="modal-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <div class="modal-header-custom">
+        <div>
+          <h5 class="modal-title-custom">{{ title }}</h5>
+          @if (subtitle) {
+            <p class="modal-subtitle">{{ subtitle }}</p>
+          }
+        </div>
+        <button type="button" class="modal-close" aria-label="Fermer" (click)="close()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-content-custom">
+        <ng-content />
+      </div>
+    </div>
+  </div>
+}

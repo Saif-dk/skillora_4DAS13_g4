@@ -1,0 +1,167 @@
+@use './app/shared/styles/theme' as *;
+
+:root {
+  --bs-primary: #{$primary};
+  --bs-primary-rgb: 37, 99, 235;
+  --bs-secondary: #{$secondary};
+  --bs-secondary-rgb: 59, 130, 246;
+  --bs-body-bg: #{$gray-light};
+  --bs-body-color: #{$navy};
+  --bs-body-color-rgb: 15, 23, 42;
+  --bs-border-color: #{$border};
+  --bs-border-radius: #{$radius-sm};
+  --bs-border-radius-lg: #{$radius};
+  --bs-font-sans-serif: 'Segoe UI', Inter, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  --bs-body-font-family: var(--bs-font-sans-serif);
+  --skillora-navy: #{$navy};
+  --skillora-blue: #{$primary};
+  --skillora-light: #{$light-blue};
+  --skillora-very-light: #{$very-light-blue};
+  --skillora-muted: #{$muted};
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  font-family: var(--bs-body-font-family);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+a {
+  text-decoration: none;
+}
+
+.app-card {
+  background: $white;
+  border: 1px solid $border;
+  border-radius: $radius;
+  @include soft-shadow;
+}
+
+.app-card-hover {
+  @include hover-lift;
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.page-subtitle {
+  color: $muted;
+  font-size: 0.925rem;
+  margin: 0.35rem 0 0;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.text-muted-2 {
+  color: $muted;
+}
+
+.btn {
+  font-weight: 600;
+  border-radius: $radius-sm;
+}
+
+.btn-primary {
+  --bs-btn-bg: #{$primary};
+  --bs-btn-border-color: #{$primary};
+  --bs-btn-hover-bg: #{$secondary};
+  --bs-btn-hover-border-color: #{$secondary};
+  --bs-btn-active-bg: #{$primary};
+  --bs-btn-active-border-color: #{$primary};
+}
+
+.btn-outline-primary {
+  --bs-btn-color: #{$primary};
+  --bs-btn-border-color: #{$primary};
+  --bs-btn-hover-bg: #{$primary};
+  --bs-btn-hover-border-color: #{$primary};
+  --bs-btn-active-bg: #{$primary};
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: $navy;
+}
+
+.form-control,
+.form-select {
+  border-color: $border;
+  border-radius: $radius-sm;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9rem;
+
+  &:focus {
+    border-color: $secondary;
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.12);
+  }
+}
+
+.badge-soft-blue {
+  background: $very-light-blue;
+  color: $primary;
+}
+
+.icon-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: $very-light-blue;
+  color: $primary;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.cover-gradient-1 { background: linear-gradient(135deg, #1d4ed8, #60a5fa); }
+.cover-gradient-2 { background: linear-gradient(135deg, #0f766e, #38bdf8); }
+.cover-gradient-3 { background: linear-gradient(135deg, #4338ca, #818cf8); }
+.cover-gradient-4 { background: linear-gradient(135deg, #0369a1, #38bdf8); }
+.cover-gradient-5 { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+.cover-gradient-6 { background: linear-gradient(135deg, #155e75, #0ea5e9); }
+
+.empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: $muted;
+
+  i {
+    font-size: 2.25rem;
+    color: #93c5fd;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}

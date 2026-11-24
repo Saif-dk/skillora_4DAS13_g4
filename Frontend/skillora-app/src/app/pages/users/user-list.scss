@@ -1,0 +1,34 @@
+.search-field {
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    z-index: 1;
+  }
+
+  input {
+    padding-left: 2.4rem;
+  }
+}
+
+.details-list {
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.85rem;
+  }
+
+  span {
+    color: #64748b;
+  }
+}

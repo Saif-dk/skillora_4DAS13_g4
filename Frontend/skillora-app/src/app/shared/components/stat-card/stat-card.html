@@ -1,0 +1,13 @@
+<div class="stat-card app-card app-card-hover">
+  <div class="stat-top">
+    <span class="stat-icon" [class]="'stat-icon tone-' + tone">
+      <i [class]="icon"></i>
+    </span>
+    <span class="stat-trend"><i class="bi bi-arrow-up-right"></i> 12 %</span>
+  </div>
+  <div class="stat-value">{{ value }}</div>
+  <div class="stat-label">{{ label }}</div>
+  @if (hint) {
+    <div class="stat-hint">{{ hint }}</div>
+  }
+</div>

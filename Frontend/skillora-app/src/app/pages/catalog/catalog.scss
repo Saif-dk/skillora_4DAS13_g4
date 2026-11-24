@@ -1,0 +1,63 @@
+.catalog-banner {
+  background: linear-gradient(120deg, #1e3a8a, #2563eb);
+  color: #fff;
+  border-radius: 18px;
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+
+  h2 {
+    font-size: 1.5rem;
+    margin: 0.35rem 0;
+  }
+
+  p {
+    color: #dbeafe;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+}
+
+.eyebrow {
+  color: #bfdbfe;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.banner-art {
+  width: 95px;
+  height: 95px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #dbeafe;
+  flex-shrink: 0;
+
+  @media (max-width: 575.98px) {
+    display: none;
+  }
+}
+
+.search-field {
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    z-index: 1;
+  }
+
+  input {
+    padding-left: 2.4rem;
+  }
+}

@@ -1,0 +1,87 @@
+<div class="login-page">
+  <section class="brand-panel">
+    <div class="brand-top">
+      <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
+      <span class="brand-name">Skill<span>ora</span></span>
+    </div>
+
+    <div class="brand-content">
+      <span class="eyebrow">PLATEFORME D’APPRENTISSAGE EN LIGNE</span>
+      <h2>Apprenez sans limites,<br /><span>évoluez à votre rythme.</span></h2>
+      <p>Des cours structurés, des ressources pédagogiques et un suivi clair pour transformer votre apprentissage en compétences concrètes.</p>
+
+      <div class="education-illustration" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="main-card">
+          <i class="bi bi-play-circle-fill"></i>
+          <span>Apprendre en vidéo</span>
+        </div>
+        <div class="float-card float-one"><i class="bi bi-award-fill"></i> Certification</div>
+        <div class="float-card float-two"><i class="bi bi-journal-check"></i> 120+ leçons</div>
+        <div class="float-card float-three"><i class="bi bi-people-fill"></i> Communauté</div>
+      </div>
+
+      <div class="brand-highlights">
+        <div><strong>500+</strong><span>Cours en ligne</span></div>
+        <div><strong>24k</strong><span>Étudiants actifs</span></div>
+        <div><strong>98 %</strong><span>Satisfaction</span></div>
+      </div>
+    </div>
+
+    <p class="brand-footer">© 2026 Skillora. Tous droits réservés.</p>
+  </section>
+
+  <section class="form-panel">
+    <div class="form-wrapper">
+      <div class="mobile-brand d-lg-none">
+        <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
+        <span class="brand-name">Skill<span>ora</span></span>
+      </div>
+
+      <h1>Bienvenue sur Skillora</h1>
+      <p class="form-subtitle">Connectez-vous pour accéder à votre espace d’apprentissage.</p>
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger py-2 small"><i class="bi bi-exclamation-circle me-1"></i>{{ errorMessage() }}</div>
+      }
+
+      <form (ngSubmit)="submit()">
+        <div class="mb-3">
+          <label for="loginEmail" class="form-label">Adresse e-mail</label>
+          <div class="input-with-icon">
+            <i class="bi bi-envelope"></i>
+            <input id="loginEmail" name="email" type="email" class="form-control" placeholder="vous@exemple.com" autocomplete="email" [(ngModel)]="form.email" required />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <label for="loginPassword" class="form-label">Mot de passe</label>
+            <a class="forgot-link" routerLink="/register">Créer un compte</a>
+          </div>
+          <div class="input-with-icon">
+            <i class="bi bi-lock"></i>
+            <input id="loginPassword" name="password" type="password" class="form-control" placeholder="••••••••" autocomplete="current-password" [(ngModel)]="form.password" required />
+          </div>
+        </div>
+
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" id="rememberMe" />
+          <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+        </div>
+
+        <button class="btn btn-primary w-100 login-btn" type="submit" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2"></span> Connexion...
+          } @else {
+            Se connecter <i class="bi bi-arrow-right ms-2"></i>
+          }
+        </button>
+      </form>
+
+      <p class="demo-note"><i class="bi bi-info-circle"></i> Compte de test : admin@skillora.fr / Admin123!</p>
+      <p class="text-center mt-3 small text-muted-2">Pas encore de compte ? <a class="fw-semibold" routerLink="/register">Inscrivez-vous</a></p>
+    </div>
+  </section>
+</div>

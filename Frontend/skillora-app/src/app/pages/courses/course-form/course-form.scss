@@ -1,0 +1,40 @@
+.back-link-row {
+  align-items: center;
+}
+
+.back-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #2563eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    background: #eff6ff;
+  }
+}
+
+.preview-cover {
+  height: 130px;
+  border-radius: 12px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.75rem;
+}
+
+.preview-title {
+  font-size: 1rem;
+}
+
+.text-danger {
+  --bs-text-opacity: 1;
+  color: #ef4444 !important;
+}

@@ -1,0 +1,24 @@
+$navy: #0f172a;
+$primary: #2563eb;
+$secondary: #3b82f6;
+$light-blue: #dbeafe;
+$very-light-blue: #eff6ff;
+$white: #ffffff;
+$gray-light: #f8fafc;
+$muted: #64748b;
+$border: #e2e8f0;
+$radius: 14px;
+$radius-sm: 10px;
+
+@mixin soft-shadow {
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+}
+
+@mixin hover-lift {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
+  }
+}

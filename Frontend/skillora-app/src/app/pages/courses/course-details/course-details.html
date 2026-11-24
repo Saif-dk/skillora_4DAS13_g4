@@ -1,0 +1,109 @@
+<a routerLink="/courses" class="link-secondary small">← Retour à la gestion des cours</a>
+
+@if (loading()) {
+  <div class="alert alert-secondary mt-3" role="status">Chargement du cours...</div>
+}
+
+@if (error()) {
+  <div class="alert alert-danger mt-3" role="alert">{{ error() }}</div>
+}
+
+@if (notice()) {
+  <div class="alert alert-success mt-3" role="status">{{ notice() }}</div>
+}
+
+@if (course(); as currentCourse) {
+  <section class="app-card p-4 mt-3 mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+      <div>
+        <h2 class="page-title mb-1">{{ currentCourse.title }}</h2>
+        <p class="page-subtitle mb-0">{{ currentCourse.category }} · {{ currentCourse.level }}</p>
+      </div>
+      <app-status-badge [status]="currentCourse.status" />
+    </div>
+    <p class="mt-3">{{ currentCourse.description }}</p>
+    <div class="row g-3 mt-1">
+      <div class="col-6 col-md-3"><span class="text-muted-2 small">Enseignant</span><div>#{{ currentCourse.teacherId }}</div></div>
+      <div class="col-6 col-md-3"><span class="text-muted-2 small">Prix</span><div>{{ currentCourse.price }} €</div></div>
+      <div class="col-6 col-md-3"><span class="text-muted-2 small">Créé le</span><div>{{ currentCourse.createdAt }}</div></div>
+      <div class="col-6 col-md-3"><span class="text-muted-2 small">Leçons</span><div>{{ lessons().length }}</div></div>
+    </div>
+
+    @if (canManage) {
+      <div class="d-flex flex-wrap gap-2 mt-4">
+        <a [routerLink]="['/courses', currentCourse.id, 'edit']" class="btn btn-sm btn-outline-primary">Modifier</a>
+        @if (currentCourse.status === 'PUBLISHED') {
+          <button type="button" class="btn btn-sm btn-outline-warning" [disabled]="busy()" (click)="unpublish()">Dépublier</button>
+        } @else {
+          <button type="button" class="btn btn-sm btn-outline-success" [disabled]="busy()" (click)="publish()">Publier</button>
+        }
+        <button type="button" class="btn btn-sm btn-outline-danger" [disabled]="busy()" (click)="removeCourse()">Supprimer</button>
+        <a [routerLink]="['/courses', currentCourse.id, 'lessons', 'new']" class="btn btn-sm btn-primary">Ajouter une leçon</a>
+        <a [routerLink]="['/courses', currentCourse.id, 'resources', 'new']" class="btn btn-sm btn-primary">Ajouter une ressource</a>
+      </div>
+    }
+  </section>
+
+  <section class="mb-4">
+    <h3 class="section-title mb-3">Leçons</h3>
+    @if (lessons().length === 0) {
+      <div class="alert alert-info">Aucune leçon disponible pour ce cours.</div>
+    }
+    @if (lessons().length > 0) {
+      <div class="list-group shadow-sm">
+        @for (lesson of lessons(); track lesson.id) {
+          <article class="list-group-item">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+              <div>
+                <h5 class="h6 mb-1">{{ lesson.position }}. {{ lesson.title }}</h5>
+                <p class="mb-2 text-muted">{{ lesson.content }}</p>
+              </div>
+              @if (canManage) {
+                <div class="d-flex flex-wrap gap-2">
+                  <a [routerLink]="['/lessons', lesson.id, 'edit']" [queryParams]="{ courseId: currentCourse.id }" class="btn btn-sm btn-outline-primary">Modifier</a>
+                  <a [routerLink]="['/lessons', lesson.id, 'resources', 'new']" [queryParams]="{ courseId: currentCourse.id }" class="btn btn-sm btn-outline-primary">Ajouter une ressource</a>
+                  <button type="button" class="btn btn-sm btn-outline-danger" [disabled]="busy()" (click)="removeLesson(lesson.id)">Supprimer</button>
+                </div>
+              }
+            </div>
+            @if (lesson.resources.length > 0) {
+              <ul class="list-unstyled mb-0">
+                @for (resource of lesson.resources; track resource.id) {
+                  <li class="d-flex flex-wrap align-items-center gap-2">
+                    <a [href]="resource.url" target="_blank" rel="noopener">{{ resource.name }}</a>
+                    <span class="badge text-bg-light">{{ resource.type }}</span>
+                    @if (canManage) {
+                      <button type="button" class="btn btn-sm btn-link text-danger p-0" (click)="removeResource(resource.id)">Supprimer</button>
+                    }
+                  </li>
+                }
+              </ul>
+            }
+          </article>
+        }
+      </div>
+    }
+  </section>
+
+  <section>
+    <h3 class="section-title mb-3">Ressources du cours</h3>
+    @if ((currentCourse.resources ?? []).length === 0) {
+      <div class="alert alert-info">Aucune ressource disponible pour ce cours.</div>
+    }
+    @if ((currentCourse.resources ?? []).length > 0) {
+      <ul class="list-group shadow-sm">
+        @for (resource of currentCourse.resources ?? []; track resource.id) {
+          <li class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <span class="d-flex align-items-center gap-2">
+              <a [href]="resource.url" target="_blank" rel="noopener">{{ resource.name }}</a>
+              <span class="badge text-bg-light">{{ resource.type }}</span>
+            </span>
+            @if (canManage) {
+              <button type="button" class="btn btn-sm btn-outline-danger" [disabled]="busy()" (click)="removeResource(resource.id)">Supprimer</button>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </section>
+}

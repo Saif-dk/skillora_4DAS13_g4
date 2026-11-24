@@ -1,0 +1,58 @@
+<aside class="sidebar" [class.collapsed]="collapsed" [class.mobile-open]="mobileOpen">
+  <div class="sidebar-header">
+    <a class="brand" routerLink="/dashboard" (click)="closeMobile.emit()" title="Skillora">
+      <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
+      <span class="brand-text">Skill<span>ora</span></span>
+    </a>
+    <button type="button" class="mobile-close" aria-label="Fermer le menu" (click)="closeMobile.emit()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <div class="sidebar-scroll">
+    <p class="sidebar-caption">MENU PRINCIPAL</p>
+    <nav class="sidebar-nav">
+      @for (item of mainItems; track item.label) {
+        <a
+          [routerLink]="item.route!"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+          [title]="item.label"
+          (click)="closeMobile.emit()"
+        >
+          <i [class]="item.icon"></i>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <p class="sidebar-caption sidebar-caption-account">COMPTE</p>
+    <nav class="sidebar-nav">
+      @for (item of accountItems; track item.label) {
+        @if (item.action === 'logout') {
+          <button type="button" class="nav-button" [title]="item.label" (click)="logout()">
+            <i [class]="item.icon"></i>
+            <span class="nav-label">{{ item.label }}</span>
+          </button>
+        } @else {
+          <a [routerLink]="item.route!" routerLinkActive="active" [title]="item.label" (click)="closeMobile.emit()">
+            <i [class]="item.icon"></i>
+            <span class="nav-label">{{ item.label }}</span>
+          </a>
+        }
+      }
+    </nav>
+
+    <div class="sidebar-promo">
+      <div class="promo-icon"><i class="bi bi-lightbulb-fill"></i></div>
+      <h6>Envie d’aller plus loin ?</h6>
+      <p>Découvrez de nouveaux cours dans le catalogue.</p>
+      <a routerLink="/catalog" (click)="closeMobile.emit()">Explorer <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <button type="button" class="collapse-btn" [title]="collapsed ? 'Développer' : 'Réduire'" (click)="toggleCollapse.emit()">
+    <i [class]="collapsed ? 'bi bi-chevron-double-right' : 'bi bi-chevron-double-left'"></i>
+    <span class="nav-label">Réduire le menu</span>
+  </button>
+</aside>
