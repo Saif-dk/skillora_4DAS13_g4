@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class CourseEventPublisherTest {
@@ -19,7 +20,7 @@ class CourseEventPublisherTest {
 
     @Test
     void publishCourseCreatedSendsEventToExchange() {
-        CourseEventPublisher publisher = new CourseEventPublisher(rabbitTemplate);
+        CourseEventPublisher publisher = new CourseEventPublisher(rabbitTemplate, true);
         CourseCreatedEvent event = new CourseCreatedEvent(
                 "evt-1",
                 10L,
@@ -33,5 +34,20 @@ class CourseEventPublisherTest {
                 RabbitMQConfig.SKILLORA_EXCHANGE,
                 RabbitMQConfig.COURSE_CREATED_ROUTING_KEY,
                 event);
+    }
+
+    @Test
+    void publishCourseCreatedSkipsEventWhenDisabled() {
+        CourseEventPublisher publisher = new CourseEventPublisher(rabbitTemplate, false);
+        CourseCreatedEvent event = new CourseCreatedEvent(
+                "evt-2",
+                11L,
+                "Angular",
+                55L,
+                LocalDateTime.of(2026, 11, 24, 10, 1));
+
+        publisher.publishCourseCreated(event);
+
+        verifyNoInteractions(rabbitTemplate);
     }
 }
