@@ -1,0 +1,71 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="h3 mb-1">Catalogue des cours</h1>
+    <p class="text-muted mb-0">Consultez les cours et leurs leçons.</p>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-8">
+    <label class="form-label" for="course-search">Rechercher</label>
+    <input
+      id="course-search"
+      #searchInput
+      type="search"
+      class="form-control"
+      placeholder="Titre du cours"
+      (input)="onSearch(searchInput.value)"
+    />
+  </div>
+  <div class="col-md-4">
+    <label class="form-label" for="course-status">Statut</label>
+    <select id="course-status" #statusSelect class="form-select" (change)="onStatus(statusSelect.value)">
+      <option value="">Tous les statuts</option>
+      <option value="DRAFT">Brouillon</option>
+      <option value="PUBLISHED">Publié</option>
+      <option value="ARCHIVED">Archivé</option>
+    </select>
+  </div>
+</div>
+
+@if (loading()) {
+  <div class="alert alert-secondary" role="status">Chargement des cours...</div>
+}
+
+@if (error()) {
+  <div class="alert alert-danger" role="alert">{{ error() }}</div>
+}
+
+@if (!loading() && !error() && rows().length === 0) {
+  <div class="alert alert-info">Aucun cours disponible.</div>
+}
+
+@if (!loading() && !error() && rows().length > 0) {
+  <div class="table-responsive shadow-sm rounded bg-white">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">Titre</th>
+          <th scope="col">Catégorie</th>
+          <th scope="col">Niveau</th>
+          <th scope="col">Statut</th>
+          <th scope="col">Enseignant</th>
+          <th scope="col">Prix</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (course of rows(); track course.id) {
+          <tr>
+            <td><a [routerLink]="['/courses', course.id]" class="fw-semibold">{{ course.title }}</a></td>
+            <td>{{ course.category }}</td>
+            <td>{{ course.level }}</td>
+            <td><span class="badge text-bg-secondary">{{ course.status }}</span></td>
+            <td>{{ course.teacherId }}</td>
+            <td>{{ course.price }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="text-muted small mt-3">{{ total() }} cours au total</p>
+}
