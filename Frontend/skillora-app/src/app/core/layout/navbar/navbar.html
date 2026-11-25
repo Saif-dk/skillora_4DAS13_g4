@@ -12,11 +12,17 @@
   <div class="topbar-right">
     <div class="search-box d-none d-md-flex">
       <i class="bi bi-search"></i>
-      <input type="search" placeholder="Rechercher un cours, une leçon..." aria-label="Rechercher" />
-      <kbd>⌘ K</kbd>
+      <input
+        type="search"
+        placeholder="Rechercher un cours, une leçon..."
+        aria-label="Rechercher"
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="search()"
+      />
+      <kbd (click)="search()" (keyup.enter)="search()" tabindex="0" role="button">⌘ K</kbd>
     </div>
 
-    <button type="button" class="topbar-icon d-md-none" aria-label="Rechercher">
+    <button type="button" class="topbar-icon d-md-none" aria-label="Rechercher" (click)="search()">
       <i class="bi bi-search"></i>
     </button>
 

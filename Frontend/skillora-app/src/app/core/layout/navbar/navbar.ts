@@ -1,12 +1,13 @@
 import { Component, DestroyRef, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
@@ -18,6 +19,7 @@ export class Navbar implements OnInit {
   readonly auth = inject(AuthService);
 
   pageTitle = 'Dashboard';
+  searchTerm = '';
 
   private readonly titles: Record<string, string> = {
     '/dashboard': 'Dashboard',
@@ -41,6 +43,16 @@ export class Navbar implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => this.updateTitle());
+  }
+
+  search(): void {
+    const term = this.searchTerm.trim();
+    const role = this.auth.user()?.role;
+    const target = role === 'ADMIN' || role === 'PROFESSOR' ? '/courses' : '/catalog';
+
+    void this.router.navigate([target], {
+      queryParams: term ? { search: term } : {},
+    });
   }
 
   private updateTitle(): void {

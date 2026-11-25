@@ -1,4 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import { CourseSummary } from '../../core/models/course.models';
 import { CourseService } from '../../core/services/course.service';
 import { CourseCard } from '../../shared/components/course-card/course-card';
@@ -11,6 +13,8 @@ import { CourseCard } from '../../shared/components/course-card/course-card';
 })
 export class Catalog {
   private readonly courseService = inject(CourseService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly search = signal('');
   readonly level = signal('');
@@ -38,6 +42,9 @@ export class Catalog {
   });
 
   constructor() {
+    this.route.queryParamMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => this.search.set(params.get('search') ?? ''));
     this.load();
   }
 

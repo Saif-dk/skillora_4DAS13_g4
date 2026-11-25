@@ -1,5 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CourseSummary } from '../../../core/models/course.models';
 import { CourseService } from '../../../core/services/course.service';
 import { TokenService } from '../../../core/services/token.service';
@@ -14,6 +15,8 @@ import { StatusBadge } from '../../../shared/components/status-badge/status-badg
 export class CourseList {
   private readonly courseService = inject(CourseService);
   private readonly tokenService = inject(TokenService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly canManage = ['ADMIN', 'PROFESSOR'].includes(this.tokenService.getRole() ?? '');
   readonly rows = signal<CourseSummary[]>([]);
@@ -26,7 +29,14 @@ export class CourseList {
   readonly total = signal(0);
 
   constructor() {
-    this.load();
+    this.route.queryParamMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        this.search.set(params.get('search') ?? '');
+        this.status.set(params.get('status') ?? '');
+        this.page.set(0);
+        this.load();
+      });
   }
 
   load(): void {

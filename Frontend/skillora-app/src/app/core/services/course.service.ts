@@ -99,6 +99,14 @@ export class CourseService {
     return this.http.post<Resource>(`${COURSE_API_BASE_URL}/lessons/${lessonId}/resources`, request);
   }
 
+  uploadResourceToCourse(courseId: number, formData: FormData): Observable<Resource> {
+    return this.http.post<Resource>(`${COURSE_API_BASE_URL}/courses/${courseId}/resources/upload`, formData);
+  }
+
+  uploadResourceToLesson(lessonId: number, formData: FormData): Observable<Resource> {
+    return this.http.post<Resource>(`${COURSE_API_BASE_URL}/lessons/${lessonId}/resources/upload`, formData);
+  }
+
   deleteResource(id: number): Observable<void> {
     return this.http.delete<void>(`${COURSE_API_BASE_URL}/resources/${id}`);
   }

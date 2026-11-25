@@ -5,4 +5,5 @@ dist/
 node_modules/
 .angular/
 Backend/course-service/data/*.db
+Backend/course-service/uploads/
 .DS_Store
