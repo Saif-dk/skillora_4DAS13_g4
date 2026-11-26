@@ -42,6 +42,45 @@ export interface Course extends CourseSummary {
   resources: Resource[];
 }
 
+export interface CourseCreateRequest {
+  title: string;
+  description: string;
+  category: string;
+  level: string;
+  status: CourseStatus;
+  price: number;
+}
+
+export interface CourseUpdateRequest {
+  title: string;
+  description: string;
+  category: string;
+  level: string;
+  status: CourseStatus;
+  price: number;
+}
+
+export interface LessonCreateRequest {
+  title: string;
+  content: string;
+  position: number;
+}
+
+export interface LessonUpdateRequest {
+  title: string;
+  content: string;
+  position: number;
+}
+
+export interface ResourceCreateRequest {
+  courseId?: number;
+  lessonId?: number;
+  name: string;
+  type: ResourceType;
+  url: string;
+  size: string;
+}
+
 export interface PageResponse<T> {
   content: T[];
   page: number;

@@ -8,6 +8,10 @@
   <div class="alert alert-danger mt-3" role="alert">{{ error() }}</div>
 }
 
+@if (notice()) {
+  <div class="alert alert-success mt-3" role="status">{{ notice() }}</div>
+}
+
 @if (course(); as currentCourse) {
   <section class="card shadow-sm mt-3 mb-4">
     <div class="card-body">
@@ -27,6 +31,59 @@
         <dt class="col-sm-3">Créé le</dt>
         <dd class="col-sm-9">{{ currentCourse.createdAt }}</dd>
       </dl>
+
+      @if (canManage) {
+        <div class="d-flex flex-wrap gap-2 mt-3" data-testid="course-actions">
+          <a
+            [routerLink]="['/courses', currentCourse.id, 'edit']"
+            class="btn btn-sm btn-outline-primary"
+          >
+            Modifier
+          </a>
+          @if (currentCourse.status === 'PUBLISHED') {
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-warning"
+              data-testid="unpublish-course"
+              [disabled]="busy()"
+              (click)="unpublish()"
+            >
+              Dépublier
+            </button>
+          } @else {
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-success"
+              data-testid="publish-course"
+              [disabled]="busy()"
+              (click)="publish()"
+            >
+              Publier
+            </button>
+          }
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger"
+            data-testid="delete-course"
+            [disabled]="busy()"
+            (click)="removeCourse()"
+          >
+            Supprimer
+          </button>
+          <a
+            [routerLink]="['/courses', currentCourse.id, 'lessons', 'new']"
+            class="btn btn-sm btn-primary"
+          >
+            Ajouter une leçon
+          </a>
+          <a
+            [routerLink]="['/courses', currentCourse.id, 'resources', 'new']"
+            class="btn btn-sm btn-primary"
+          >
+            Ajouter une ressource
+          </a>
+        </div>
+      }
     </div>
   </section>
 
@@ -39,14 +96,55 @@
       <div class="list-group shadow-sm">
         @for (lesson of lessons(); track lesson.id) {
           <article class="list-group-item">
-            <h3 class="h6 mb-1">{{ lesson.position }}. {{ lesson.title }}</h3>
-            <p class="mb-2 text-muted">{{ lesson.content }}</p>
+            <div class="d-flex justify-content-between align-items-start gap-3">
+              <div>
+                <h3 class="h6 mb-1">{{ lesson.position }}. {{ lesson.title }}</h3>
+                <p class="mb-2 text-muted">{{ lesson.content }}</p>
+              </div>
+              @if (canManage) {
+                <div class="d-flex gap-2" data-testid="lesson-actions">
+                  <a
+                    [routerLink]="['/lessons', lesson.id, 'edit']"
+                    [queryParams]="{ courseId: currentCourse.id }"
+                    class="btn btn-sm btn-outline-primary"
+                  >
+                    Modifier
+                  </a>
+                  <a
+                    [routerLink]="['/lessons', lesson.id, 'resources', 'new']"
+                    [queryParams]="{ courseId: currentCourse.id }"
+                    class="btn btn-sm btn-outline-primary"
+                  >
+                    Ajouter une ressource
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-danger"
+                    data-testid="delete-lesson"
+                    [disabled]="busy()"
+                    (click)="removeLesson(lesson.id)"
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              }
+            </div>
             @if (lesson.resources.length > 0) {
               <ul class="list-unstyled mb-0">
                 @for (resource of lesson.resources; track resource.id) {
-                  <li>
+                  <li class="d-flex align-items-center gap-2">
                     <a [href]="resource.url" target="_blank" rel="noopener">{{ resource.name }}</a>
                     <span class="badge text-bg-light">{{ resource.type }}</span>
+                    @if (canManage) {
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-link text-danger p-0"
+                        data-testid="delete-resource"
+                        (click)="removeResource(resource.id)"
+                      >
+                        Supprimer
+                      </button>
+                    }
                   </li>
                 }
               </ul>
@@ -59,15 +157,28 @@
 
   <section>
     <h2 class="h4 mb-3">Ressources du cours</h2>
-    @if (currentCourse.resources.length === 0) {
+    @if ((currentCourse.resources ?? []).length === 0) {
       <div class="alert alert-info">Aucune ressource disponible pour ce cours.</div>
     }
-    @if (currentCourse.resources.length > 0) {
+    @if ((currentCourse.resources ?? []).length > 0) {
       <ul class="list-group shadow-sm">
-        @for (resource of currentCourse.resources; track resource.id) {
+        @for (resource of currentCourse.resources ?? []; track resource.id) {
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            <a [href]="resource.url" target="_blank" rel="noopener">{{ resource.name }}</a>
-            <span class="badge text-bg-light">{{ resource.type }}</span>
+            <span class="d-flex align-items-center gap-2">
+              <a [href]="resource.url" target="_blank" rel="noopener">{{ resource.name }}</a>
+              <span class="badge text-bg-light">{{ resource.type }}</span>
+            </span>
+            @if (canManage) {
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                data-testid="delete-resource"
+                [disabled]="busy()"
+                (click)="removeResource(resource.id)"
+              >
+                Supprimer
+              </button>
+            }
           </li>
         }
       </ul>
